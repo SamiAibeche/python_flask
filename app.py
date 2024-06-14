@@ -26,6 +26,7 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit_form():
+    # Input Sanitization
     firstname = bleach.clean(html.escape(request.form.get('firstname', '')).strip(), tags=allowed_tags,
                              attributes=allowed_attributes)
     lastname = bleach.clean(html.escape(request.form.get('lastname', '')).strip(), tags=allowed_tags,
@@ -63,8 +64,9 @@ def submit_form():
     if gender not in ['H', 'F']:
         errors['gender'] = 'Gender is required.'
     if honeypot:
-        return redirect(url_for('index'))  # Si le honeypot est rempli, rediriger sans action
+        return redirect(url_for('index'))  #If errors have been found
 
+    # Flash errors management
     if errors:
         for field, error in errors.items():
             flash(error, field)
@@ -101,7 +103,8 @@ def delete_one_by():
     db.delete_one_by(id)
 
     results = db.fetch_all()
-    # flash(msg)
+    msg = "User "+str(id)+" has been deleted"
+    flash(msg)
     return render_template('list.html', users=results)
 
 

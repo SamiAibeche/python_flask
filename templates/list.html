@@ -2,55 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        body{
-            margin: 0 auto;
-            text-align: center;
-            font-family: "Roboto", sans-serif;
-              font-weight: 100;
-              font-style: normal;
-        }
-
-        h1{
-            font-weight: 500
-        }
-        .parent_c_row{
-            margin: auto;
-            max-width: 1000px;
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            padding-left: 0;
-            margin-bottom: 0;
-            border-radius: .25rem;
-        }
-        .c_row{
-            display: flex !important;
-            flex-direction: row;
-            justify-content: left;
-            align-content: center;
-            gap: 3rem;
-            align-items: center;
-            position: relative;
-            padding: .75rem 1.25rem;
-            background-color: #fff;
-            border: 1px solid rgba(0, 0, 0, .125);
-        }
-        .c_row:first-child{
-            border-top-left-radius: inherit;
-            border-top-right-radius: inherit;
-        }
-    </style>
+    <title>Becode Flask Python - List</title>
+    <link rel= "stylesheet" type= "text/css" href="{{ url_for('static', filename='styles/styles.css')}}">
 </head>
 <body>
 <div class="container">
     <h1 class="mt-5">Thank you for contacting us!</h1>
     <p>Here is the list of members:</p>
-
     <div class="parent_c_row">
-
+    {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p class="t_left">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
         {% for user in users   %}
         <div class="c_row">
 
