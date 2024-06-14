@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Success</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1 class="mt-5">Thank you for contacting us!</h1>
+    <p>Here is the information you submitted:</p>
+    <ul class="list-group">
+      <li class="list-group-item">First Name: {{ firstname }}</li>
+      <li class="list-group-item">Last Name: {{ lastname }}</li>
+      <li class="list-group-item">Email: {{ email }}</li>
+      <li class="list-group-item">Country: {{ country }}</li>
+      <li class="list-group-item">Message: {{ message }}</li>
+      <li class="list-group-item">Gender: {{ 'Male' if gender == 'H' else 'Female' }}</li>
+      <li class="list-group-item">Subjects: {{ subjects }}</li>
+    </ul>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/

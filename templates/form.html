@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .error { color: red; }
+    .honeypot { display: none; }
+    .invalid-feedback {display: block;}
+    .container-form {max-width: 800px; margin: auto;}
+    .container-form h1 {text-align: center}
+    .form-check {display: inline-block;}
+    .alert {font-size: 12px;}
+    .alert ul {margin-bottom: 0}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="col container-form">
+    <h1>BeCode Form</h1>
+
+    <form action="{{ url_for('submit_form') }}" method="post" class="needs-validation" novalidate>
+      <div class="form-group">
+        <label for="firstname">First Name:</label>
+        <input type="text" class="form-control" id="firstname" name="firstname" value="{{ firstname }}" required>
+          {% for message in messages %}
+            {% if message == 'firstname' %}
+              <div class="invalid-feedback">{{ message }}</div>
+            {% endif %}
+          {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="lastname">Last Name:</label>
+        <input type="text" class="form-control" id="lastname" name="lastname" value="{{ lastname }}" required>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% for category, message in messages %}
+
+                {% if category == 'lastname' %}
+                  <div class="invalid-feedback">{{ message }}</div>
+                {% endif %}
+              {% endfor %}
+            {% endwith %}
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ email }}" required>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            {% if category == 'email' %}
+              <div class="invalid-feedback">{{ message }}</div>
+            {% endif %}
+          {% endfor %}
+        {% endwith %}
+      </div>
+
+      <div class="form-group">
+        <label for="country">Country:</label>
+        <select class="form-control" id="country" name="country" required>
+          <option value="">Select a country</option>
+          <option value="France" {% if country == 'France' %}selected{% endif %}>France</option>
+          <option value="Belgium" {% if country == 'Belgium' %}selected{% endif %}>Belgium</option>
+          <option value="Canada" {% if country == 'Canada' %}selected{% endif %}>Canada</option>
+          <option value="Switzerland" {% if country == 'Switzerland' %}selected{% endif %}>Switzerland</option>
+        </select>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            {% if category == 'country' %}
+              <div class="invalid-feedback">{{ message }}</div>
+            {% endif %}
+          {% endfor %}
+        {% endwith %}
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message:</label>
+        <textarea class="form-control" id="message" name="message" rows="4" required>{{ message }}</textarea>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            {% if category == 'message' %}
+              <div class="invalid-feedback">{{ message }}</div>
+            {% endif %}
+          {% endfor %}
+        {% endwith %}
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender:</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="gender_m" name="gender" value="H" {% if gender == 'H' %}checked{% endif %} required>
+          <label class="form-check-label" for="gender_m">Male</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="gender_f" name="gender" value="F" {% if gender == 'F' %}checked{% endif %} required>
+          <label class="form-check-label" for="gender_f">Female</label>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            {% if category == 'gender' %}
+              <div class="invalid-feedback">{{ message }}</div>
+            {% endif %}
+          {% endfor %}
+        {% endwith %}
+      </div>
+
+      <div class="form-group">
+        <label for="subjects">Subjects:</label>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="repair" name="subjects" value="Repair" {% if 'Repair' in subjects %}checked{% endif %}>
+          <label class="form-check-label" for="repair">Repair</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="order" name="subjects" value="Order" {% if 'Order' in subjects %}checked{% endif %}>
+          <label class="form-check-label" for="order">Order</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="other" name="subjects" value="Other" {% if 'Other' in subjects %}checked{% endif %}>
+          <label class="form-check-label" for="other">Other</label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
