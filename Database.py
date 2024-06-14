@@ -84,7 +84,7 @@ class Database:
             connection.commit()
             cursor.close()
             connection.close()
-    def insert_data(self, gender, firstname, lastname, email, message, subjects, country='Be'):
+    def insert_datas(self, gender, firstname, lastname, email, message, subjects, country='Be'):
 
         myDb = Database()
 

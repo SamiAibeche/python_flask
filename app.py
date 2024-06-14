@@ -75,7 +75,7 @@ def submit_form():
     gender = 1 if gender == 'H' else 0
     country = country[0:2]
 
-    db.insert_data(gender, firstname, lastname, email, message, subjects, country)
+    db.insert_datas(gender, firstname, lastname, email, message, subjects, country)
 
     return render_template('show.html', firstname=firstname, lastname=lastname, email=email, country=country,
                            message=message, gender=gender, subjects=subjects)
@@ -94,13 +94,14 @@ def list_one_by(id):
 
     return render_template('profile.html', user=result)
 
+
 @app.route('/list/delete', methods=['POST'])
 def delete_one_by():
-
     id = int(bleach.clean(html.escape(request.form.get('user_id', ''))))
     db.delete_one_by(id)
 
     results = db.fetch_all()
+    # flash(msg)
     return render_template('list.html', users=results)
 
 
