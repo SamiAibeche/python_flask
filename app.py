@@ -19,6 +19,10 @@ allowed_attributes = {
 db = Database()  # Create an instance of the Database class
 
 
+def sanitize(input):
+    return bleach.clean(html.escape(input).strip(), tags=allowed_tags, attributes=allowed_attributes)
+
+
 @app.route('/')
 def index():
     return render_template('form.html')
@@ -27,18 +31,13 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit_form():
     # Input Sanitization
-    firstname = bleach.clean(html.escape(request.form.get('firstname', '')).strip(), tags=allowed_tags,
-                             attributes=allowed_attributes)
-    lastname = bleach.clean(html.escape(request.form.get('lastname', '')).strip(), tags=allowed_tags,
-                            attributes=allowed_attributes)
-    email = bleach.clean(html.escape(request.form.get('email', '')).strip(), tags=allowed_tags,
-                         attributes=allowed_attributes)
-    country = bleach.clean(html.escape(request.form.get('country', '')).strip(), tags=allowed_tags,
-                           attributes=allowed_attributes)
-    message = bleach.clean(html.escape(request.form.get('message', '')).strip(), tags=allowed_tags,
-                           attributes=allowed_attributes)
-    gender = bleach.clean(html.escape(request.form.get('gender', '')).strip(), tags=allowed_tags,
-                          attributes=allowed_attributes)
+    firstname = sanitize(request.form.get('firstname', ''))
+    lastname = sanitize(request.form.get('lastname', ''))
+    email = sanitize(request.form.get('email', ''))
+    country = sanitize(request.form.get('country', ''))
+    message = sanitize(request.form.get('message', ''))
+    gender = sanitize(request.form.get('gender', ''))
+
     subjects = [bleach.clean(subject, tags=allowed_tags, attributes=allowed_attributes) for subject in
                 request.form.getlist('subjects')]
     honeypot = bleach.clean(html.escape(request.form.get('honeypot', '')).strip(), tags=allowed_tags,
@@ -64,7 +63,7 @@ def submit_form():
     if gender not in ['H', 'F']:
         errors['gender'] = 'Gender is required.'
     if honeypot:
-        return redirect(url_for('index'))  #If errors have been found
+        return redirect(url_for('index'))  # If errors have been found
 
     # Flash errors management
     if errors:
@@ -93,19 +92,27 @@ def fetch_all():
 @app.route('/list/<id>', methods=['GET'])
 def list_one_by(id):
     result = db.fetch_one_by(id)
-
-    return render_template('profile.html', user=result)
+    if result is None:
+        return render_template('404.html')
+    else:
+        return render_template('profile.html', user=result)
 
 
 @app.route('/list/delete', methods=['POST'])
 def delete_one_by():
-    id = int(bleach.clean(html.escape(request.form.get('user_id', ''))))
+    id = int(sanitize(request.form.get('user_id', '')))
     db.delete_one_by(id)
 
     results = db.fetch_all()
-    msg = "User "+str(id)+" has been deleted"
-    flash(msg)
+    msg = "User " + str(id) + " has been deleted"
+
+    flash(msg)  # Flash usage
     return render_template('list.html', users=results)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':

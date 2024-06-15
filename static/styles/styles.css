@@ -1,10 +1,11 @@
-body{
+body, html{
     margin: 0 auto;
     text-align: center;
     font-family: "Roboto", sans-serif;
-      font-weight: 100;
-      font-style: normal;
-
+    font-weight: 100;
+    font-style: normal;
+              height: 100%;
+    background: linear-gradient(5deg, #f5f7fa, #c3cfe2);
 h1{
     font-weight: 500
 }
@@ -37,4 +38,36 @@ h1{
 }
 .t_left{
     text-align: left;
+}
+
+.error-container {
+  text-align: center;
+  max-width: 600px;
+}
+.error-code {
+  font-size: 10rem;
+  font-weight: bold;
+  color: darkblue;
+}
+.error-message {
+  font-size: 1.5rem;
+  margin-bottom: 4rem;
+}
+.error-description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+.home-button {
+  text-transform: uppercase;
+  background: darkblue;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+.home-button:hover {
+  background: blue;
+  text-decoration: none
 }

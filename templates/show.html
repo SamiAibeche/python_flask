@@ -6,8 +6,15 @@
   <title>Becode Flask Python - View</title>
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body, html {
+          height: 100%;
+          background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        }
+  </style>
 </head>
 <body>
+    {% set countries = {'Fr': 'France', 'Be': 'Belgium', 'Ca': 'Canada', 'Ch': 'Switzerland'} %}
   <div class="container">
     <h1 class="mt-5">Thank you for contacting us!</h1>
     <p>Here is the information you submitted:</p>
@@ -15,7 +22,7 @@
       <li class="list-group-item">First Name: {{ firstname }}</li>
       <li class="list-group-item">Last Name: {{ lastname }}</li>
       <li class="list-group-item">Email: {{ email }}</li>
-      <li class="list-group-item">Country: {{ country }}</li>
+      <li class="list-group-item">Country: {{ countries[country] }}</li>
       <li class="list-group-item">Message: {{ message }}</li>
       <li class="list-group-item">Gender: {{ 'Male' if gender == 'H' else 'Female' }}</li>
       <li class="list-group-item">Subjects: {{ subjects }}</li>
