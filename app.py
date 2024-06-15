@@ -40,7 +40,7 @@ def submit_form():
 
     subjects = [bleach.clean(subject, tags=allowed_tags, attributes=allowed_attributes) for subject in
                 request.form.getlist('subjects')]
-    honeypot = bleach.clean(html.escape(request.form.get('honeypot', '')).strip(), tags=allowed_tags,
+    error_msg = bleach.clean(html.escape(request.form.get('error_msg', '')).strip(), tags=allowed_tags,
                             attributes=allowed_attributes)
     countries = ['France', 'Belgium', 'Canada', 'Switzerland']
 
@@ -62,7 +62,7 @@ def submit_form():
         errors['message'] = 'Message is required.'
     if gender not in ['H', 'F']:
         errors['gender'] = 'Gender is required.'
-    if honeypot:
+    if error_msg:
         return redirect(url_for('index'))  # If errors have been found
 
     # Flash errors management
