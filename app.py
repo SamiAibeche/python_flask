@@ -34,7 +34,7 @@ def submit_form():
     country = sanitize(request.form.get('country', ''))
     message = sanitize(request.form.get('message', ''))
     gender = sanitize(request.form.get('gender', ''))
-    
+
     subjects = [sanitize(subject) for subject in request.form.getlist('subjects')]
 
     error_msg = sanitize(request.form.get('error_msg', ''))
