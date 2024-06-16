@@ -11,16 +11,13 @@ load_dotenv()  # Load environment variables from .env file
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 
-allowed_tags = ['b', 'i', 'u', 'strong', 'em']
-allowed_attributes = {
-    '*': ['class', 'style']
-}
-
 db = Database()  # Create an instance of the Database class
 
 
 def sanitize(input):
-    return bleach.clean(html.escape(input).strip(), tags=allowed_tags, attributes=allowed_attributes)
+    escaped_input = html.escape(input).strip()
+    cleaned_input = bleach.clean(escaped_input)
+    return cleaned_input
 
 
 @app.route('/')
@@ -37,11 +34,10 @@ def submit_form():
     country = sanitize(request.form.get('country', ''))
     message = sanitize(request.form.get('message', ''))
     gender = sanitize(request.form.get('gender', ''))
+    
+    subjects = [sanitize(subject) for subject in request.form.getlist('subjects')]
 
-    subjects = [bleach.clean(subject, tags=allowed_tags, attributes=allowed_attributes) for subject in
-                request.form.getlist('subjects')]
-    error_msg = bleach.clean(html.escape(request.form.get('error_msg', '')).strip(), tags=allowed_tags,
-                            attributes=allowed_attributes)
+    error_msg = sanitize(request.form.get('error_msg', ''))
     countries = ['France', 'Belgium', 'Canada', 'Switzerland']
 
     if subjects and len(subjects) >= 1:
