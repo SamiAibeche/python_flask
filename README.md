@@ -24,8 +24,8 @@ This project is a simple Flask web application that includes a contact form. The
 
 1. **Clone the repository**:
     ```sh
-    git clone https://github.com/yourusername/your-repo.git
-    cd your-repo
+    git clone https://github.com/SamiAibeche/python_flask.git
+    cd python_flask
     ```
 
 2. **Create and activate a virtual environment**:
