@@ -19,6 +19,26 @@ def sanitize(input):
     cleaned_input = bleach.clean(escaped_input)
     return cleaned_input
 
+def check_errors(firstname, lastname, email, country, message, gender):
+
+    countries = ['France', 'Belgium', 'Canada', 'Switzerland']
+    errors = {}
+
+    if not firstname:
+        errors['firstname'] = 'First name is required.'
+    if not lastname:
+        errors['lastname'] = 'Last name is required.'
+    if not email or not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        errors['email'] = 'Valid email is required.'
+    if country not in countries:
+        errors['country'] = 'Valid country is required.'
+    if not message:
+        errors['message'] = 'Message is required.'
+    if gender not in ['H', 'F']:
+        errors['gender'] = 'Gender is required.'
+
+    return errors
+
 
 @app.route('/')
 def index():
@@ -38,26 +58,15 @@ def submit_form():
     subjects = [sanitize(subject) for subject in request.form.getlist('subjects')]
 
     error_msg = sanitize(request.form.get('error_msg', ''))
-    countries = ['France', 'Belgium', 'Canada', 'Switzerland']
 
     if subjects and len(subjects) >= 1:
         subjects = ",".join(subjects)
     else:
         subjects = ("")
 
-    errors = {}
-    if not firstname:
-        errors['firstname'] = 'First name is required.'
-    if not lastname:
-        errors['lastname'] = 'Last name is required.'
-    if not email or not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-        errors['email'] = 'Valid email is required.'
-    if country not in countries:
-        errors['country'] = 'Valid country is required.'
-    if not message:
-        errors['message'] = 'Message is required.'
-    if gender not in ['H', 'F']:
-        errors['gender'] = 'Gender is required.'
+    # Flash errors management
+    errors = check_errors(firstname, lastname, email, country, message, gender)
+
     if error_msg:
         return redirect(url_for('index'))  # If errors have been found
 

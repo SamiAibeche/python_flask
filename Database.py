@@ -103,3 +103,22 @@ class Database:
             # Commit the transaction
             connection.commit()
             print("Session data inserted successfully.")
+
+    def update_datas(self, gender, firstname, lastname, email, message, subjects, id, country='Be'):
+
+        myDb = Database()
+
+        connection = myDb.connect_db()
+
+        if connection.is_connected():
+            # PREVENT SQL INJECTION BY PREPARING THE SQL QUERY
+            query = "UPDATE users SET `gender` = %s, `firstname` = %s, `lastname` = %s, `email` = %s, `message` = %s, `subjects` = %s, `country` = %s WHERE  `id` = %s"
+            args = (gender, firstname, lastname, email, message, subjects, id, country)
+
+            # Create a cursor and execute the SQL statement
+            cursor = connection.cursor()
+
+            cursor.execute(query, args)
+            # Commit the transaction
+            connection.commit()
+            print("Session data inserted successfully.")
