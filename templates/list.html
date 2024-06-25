@@ -20,11 +20,18 @@
 
             <div class="col-3">
                 <form style="margin: 0; padding: 0;" method="post" action="http://127.0.0.1:5000/list/delete">
-                      <input type="hidden" name="user_id" value="{{ user['id'] }}">
+                      <!-- Link for MongoDB -->
+                      <input type="hidden" name="user_id" value="{{ user['_id'] }}">
+                      <!-- Link for MySQL -->
+<!--                  <input type="hidden" name="user_id" value="{{ user['id'] }}">    -->
+
                       <button style="display: inline; cursor:pointer;" type="submit">x</button>
                 </form>
             </div>
-            <div class="col-3"><a href="http://127.0.0.1:5000/list/{{ user['id'] }}">{{ user['id'] }}</a></div>
+            <!-- Link for MongoDB -->
+            <div class="col-3"><a href="http://127.0.0.1:5000/list/{{ user['_id'] }}">{{ user['_id'] }}</a></div>
+            <!-- Link for MySQL -->
+            <!-- <div class="col-3"><a href="http://127.0.0.1:5000/list/{{ user['id'] }}">{{ user['id'] }}</a></div>-->
             {% if user['gender'] == 1 %}
             <div class="col-3"><p>Mr</p></div>
             {% else %}

@@ -5,13 +5,16 @@ import bleach
 import os
 from dotenv import load_dotenv
 from Database import Database
+from MongoDb import MongoDb
 
 load_dotenv()  # Load environment variables from .env file
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 
-db = Database()  # Create an instance of the Database class
+# db = Database()  # Create an instance of the MySQL Database class
+
+db = MongoDb()  # Create an instance of the MongoDB Database class
 
 
 def sanitize(input):
@@ -105,7 +108,11 @@ def list_one_by(id):
 
 @app.route('/list/delete', methods=['POST'])
 def delete_one_by():
-    id = int(sanitize(request.form.get('user_id', '')))
+    # Used for MySQL
+    # id = int(sanitize(request.form.get('user_id', '')))
+
+    # Used for MongoDB
+    id = (sanitize(request.form.get('user_id', '')))
     db.delete_one_by(id)
 
     results = db.fetch_all()
